@@ -379,7 +379,11 @@ class LSTMAttentionDot(nn.Module):
         steps = range(input.size(0))
         for i in steps:
             hidden = recurrence(input[i], hidden)
-            output.append(isinstance(hidden, tuple) and hidden[0] or hidden)
+            # output.append(isinstance(hidden, tuple) and hidden[0] or hidden)
+            if isinstance(hidden, tuple):
+                output.append(hidden[0])
+            else:
+                output.append(hidden)
 
         output = torch.cat(output, 0).view(input.size(0), *output[0].size())
 
